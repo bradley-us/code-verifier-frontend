@@ -32,7 +32,7 @@ const LoginForm = () => {
           // console.table(values)
 
           login(values.email, values.pwd).then((response: AxiosResponse) => {
-            if(response){
+            if(response.status === 200){
               alert(JSON.stringify(response.data, null, 2))
               console.table(response.data)
             } else {
