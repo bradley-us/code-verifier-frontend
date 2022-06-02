@@ -8,7 +8,7 @@ import { login } from '../../services/authService'
 const loginSchema = Yup.object().shape(
   {
     email: Yup.string().email('Invalid Email Format').required('Email is mandatory'),
-    pwd: Yup.string().required('Password is mandatory')
+    password: Yup.string().required('Password is mandatory')
   }
 )
 
@@ -16,7 +16,7 @@ const LoginForm = () => {
 
   const initialCredentials = {
     email: '',
-    pwd: ''
+    password: ''
   }
 
   return (
@@ -31,10 +31,11 @@ const LoginForm = () => {
           // alert(JSON.stringify(values, null, 2))
           // console.table(values)
 
-          login(values.email, values.pwd).then((response: AxiosResponse) => {
-            if(response.status === 200){
-              alert(JSON.stringify(response.data, null, 2))
-              console.table(response.data)
+          login(values.email, values.password).then((res: AxiosResponse) => {
+            if(res.status === 200){
+              alert(JSON.stringify(res.data.token, null, 2))
+              console.table(res.data)
+              sessionStorage.setItem('sessionToken', res.data.token)
             } else {
               throw new Error ('Invalid Credentials')
             }
@@ -54,13 +55,13 @@ const LoginForm = () => {
                 )
               }
 
-              {/* Pwd FIELD */}
-              <label htmlFor='pwd'>Password</label>
-              <Field id='pwd' type='password' name='pwd' placeholder='Password'></Field>
+              {/* password FIELD */}
+              <label htmlFor='password'>Password</label>
+              <Field id='password' type='password' name='password' placeholder='Password'></Field>
               {/* Email Errors */}
               {
-                errors.pwd && touched.pwd && (
-                  <ErrorMessage name='pwd' component='div'></ErrorMessage>
+                errors.password && touched.password && (
+                  <ErrorMessage name='password' component='div'></ErrorMessage>
                 )
               }
 
